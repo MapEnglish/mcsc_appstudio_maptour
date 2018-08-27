@@ -1,0 +1,57 @@
+{
+    "access": "public",
+    "accessInformation": null,
+    "appCategories": [
+    ],
+    "avgRating": 0,
+    "banner": null,
+    "categories": [
+    ],
+    "commentsEnabled": true,
+    "created": 1519432342000,
+    "culture": "en-us",
+    "description": "\n<p style=' margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;'>Configure the Map Tour template to show a feature photo tour in a native app that will run on your chosen device. Nominate either a single web map, a map gallery query, or an existing web based story map tour to create your app. Add your own branding – icons, colors and images – to make the Map Tour app your own. Windows, Android, iOS, Mac and Linux apps can be generated from this template. For more information on configuring this app, see the <a href='http://doc.arcgis.com/en/appstudio/create-apps/templatemaptour.htm'><span style=' text-decoration: underline; color:#0000ff;'>Map Tour</span></a> documentation. </p>",
+    "documentation": null,
+    "extent": [
+    ],
+    "groupDesignations": null,
+    "guid": null,
+    "id": null,
+    "industries": [
+    ],
+    "languages": [
+    ],
+    "largeThumbnail": null,
+    "licenseInfo": "\n<p style=' margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;'>ArcGIS organizational account required. <br />See <a href='http://doc.arcgis.com/en/appstudio/#systemrequirements'><span style=' text-decoration: underline; color:#0000ff;'>AppStudio for ArcGIS system requirements</span></a>.<br /></p>",
+    "listed": false,
+    "modified": 1527175119000,
+    "name": null,
+    "numComments": 7,
+    "numRatings": 0,
+    "numViews": 400,
+    "orgId": "2U3NfasNQ9o9LkLt",
+    "owner": null,
+    "ownerFolder": null,
+    "properties": null,
+    "proxyFilter": null,
+    "scoreCompleteness": 100,
+    "screenshots": [
+    ],
+    "size": 498358,
+    "snippet": "Create a beautiful map tour native app in 3 easy steps",
+    "spatialReference": null,
+    "tags": null,
+    "thumbnail": "thumbnail/thumbnail.png",
+    "title": "MCSC Map Tour",
+    "type": "Native Application",
+    "typeKeywords": [
+        "API_QML",
+        "App",
+        "Application",
+        "AppStudio",
+        "Configuration",
+        "Native",
+        "qml"
+    ],
+    "url": null
+}
