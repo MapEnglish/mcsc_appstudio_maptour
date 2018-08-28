@@ -9,10 +9,12 @@ import QtQuick.Controls.Material 2.1 as NewMaterial
 import ArcGIS.AppFramework 1.0
 
 import "components" as Components
+import "../MCSC" as MCSC
 
 Components.MenuPage {
     id: menuPage
 
+    property var registerPhone
     property color backgroundColor: app.pageBackgroundColor
     property real defaultMargin: units(8)
     property var hideMask
@@ -23,6 +25,7 @@ Components.MenuPage {
     // menu items
     readonly property string kGallery: qsTr("Back to Gallery")
     readonly property string kFontSize: qsTr("Font Size")
+    readonly property string kNotify: qsTr("Receive Notifications")
     readonly property string kAbout: qsTr("About the App")
     readonly property string kDistance: qsTr("Show Distance")
     readonly property string kFeedback: qsTr("Send Feedback")
@@ -48,6 +51,15 @@ Components.MenuPage {
     x: {
         var res = -width
         return res
+    }
+
+    //MATT
+    Component {
+        id:registerPhonePage
+
+        MCSC.RegisterPhonePage{
+
+        }
     }
 
     content: NewControls.Pane {
@@ -274,6 +286,11 @@ Components.MenuPage {
             case kDownloadMap:
                 mmpkDialog.open()
                 break;
+            case kNotify:
+                //Qt.openUrlExternally("https://notifications-mcsc.hub.arcgis.com/");
+                registerPhone = registerPhonePage.createObject(app)
+                registerPhone.show()
+                break;
             }
         })
     }
@@ -300,6 +317,8 @@ Components.MenuPage {
                     {"name": kFontSize,
                      "control": "spinBox"},
                     {"name": kAbout,
+                     "control": ""},
+                    {"name": kNotify,
                      "control": ""},
                     {"name": kFeedback,
                      "control": ""},

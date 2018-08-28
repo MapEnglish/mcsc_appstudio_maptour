@@ -1137,6 +1137,9 @@ NewControls.Pane {
 
             onClicked: {
                 //Qt.openUrlExternally("%1/home/webmap/viewer.html?webmap=%2".arg(app.portalUrl).arg(app.tourManager.webMapData.webmapId))
+                Qt.openUrlExternally("https://notifications-mcsc.hub.arcgis.com/")
+                return
+
                 learn = learnMorePage.createObject(app)
                 learn.onTransitionOutCompleted.connect(function () {
                     learn.destroy()
