@@ -28,6 +28,7 @@ import Esri.ArcGISRuntime 100.2
 import ArcGIS.AppFramework.Networking 1.0
 
 import "components" as Components
+import "../MCSC" as MCSC
 
 App {
     id: app
@@ -278,6 +279,7 @@ App {
     }
 
     //--------------------------------------------------------------------------
+
 
     Component {
         id: landingPage

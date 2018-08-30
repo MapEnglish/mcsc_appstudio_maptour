@@ -31,6 +31,7 @@ import ArcGIS.AppFramework 1.0
 import ArcGIS.AppFramework.Controls 1.0
 
 import "components" as Components
+import "../MCSC" as MCSC
 
 NewControls.Pane {
     id: tourPage
@@ -638,6 +639,10 @@ NewControls.Pane {
                         mapView.setViewpointRotation(mapView.initialMapRotation)
                     }
                 }
+            }
+
+            MCSC.LocationTracker{
+
             }
 
             Rectangle {

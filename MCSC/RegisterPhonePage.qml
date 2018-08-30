@@ -20,6 +20,7 @@ Components.Page {
     property var rtCreate: ArcGISRuntimeEnvironment.createObject
     property Portal portal
     property Portal securityPortal
+    property MapView mapView
 
     property var smsUsr:     {
         "geometry": {"spatialReference": {"wkid": 4326}, "x": 0, "y": 0},
@@ -35,6 +36,16 @@ Components.Page {
     isDebug: false
     visible: false
     headerHeight: 50 * app.scaleFactor
+
+    Components.MessageDialog{
+        id:messageBox
+        visible: false
+        showLeftButton: false
+
+        onRightButtonClicked: {
+            visible = false
+        }
+    }
 
     SecureStorageHelper{
         id: secureStorage
@@ -127,6 +138,11 @@ Components.Page {
                     //spacing: units(8)
                     property real verticalPadding: Qt.platform.os === "windows" ? units(8.9) : units(9.5)
 
+                    Label{
+                        text: qsTr("Step A:")
+                        font.family: app.customTextFont.name
+                        font.pointSize: app.baseFontSize
+                    }
 
                     TextField {
                         id: phoneNumber
@@ -199,61 +215,7 @@ Components.Page {
 
 
                     //Click on the button to store key and value in the keychain
-                    Button {
-                        id: requestVerificationButton_OLD
-                        visible: false
-                        text: qsTr("Request Verification Code")
-                        onClicked: {
-                            //toastMessageRec.visible = true
-                            //toastMessage.text = "Dude"
-                            //rowEnterVerificationCode.visible = true
-
-                            //console.log(securityPortal.portalUser.username + ": " + securityPortal.credential.token);
-
-                            startVerificationNetworkRequest.url += "verification/start"
-                            //console.log(networkRequest.url)
-                            //console.log(phoneNumber.text)
-
-                            smsUsr.token = securityPortal.credential.token
-                            smsUsr.attributes.Username = securityPortal.portalUser.username;
-                            smsUsr.attributes.PhoneNumber = phoneNumber.text;
-    //                            var dude =
-//                            {
-//                                attributes: {PhoneNumber: phoneNumber.text},
-//                            };
-
-                            var smsRecipient = {
-                                country_code: "1",
-                                smsUser: JSON.stringify(smsUsr),
-                                via: "sms"
-                            };
-
-                            console.log(JSON.stringify(smsRecipient));
-                            startVerificationNetworkRequest.send(smsRecipient);
-
-
-
-
-                            return
-
-
-                            retrieveData.visible = false
-
-                            // check if key and value is not null and not empty
-                            if (key.text.length > 0 && key.text !== null) {
-
-                                // store key and value into Keychain
-                                SecureStorage.setValue(key.text,value.text)
-                                toastMessage.text = insertSuccessMessage
-                                toastMessageRec.color = successColor
-                            }
-                            else {
-                                toastMessage.text = failMessage;
-                                toastMessageRec.color = errorColor;
-                            }
-                        }
                     }
-                }
 
                 SpatialReference {
                     id: mySpatialReference
@@ -263,6 +225,7 @@ Components.Page {
                 ColumnLayout{
                     id: rowEnterVerificationCode
                     visible: true
+
                     //spacing: 10
                     Layout.leftMargin: units(8)
                     Layout.rightMargin: units(8)
@@ -274,6 +237,12 @@ Components.Page {
                     spacing: app.units(1)
                     property real verticalPadding: Qt.platform.os === "windows" ? units(8.9) : units(9.5)
 
+                    Label{
+                        text: qsTr("Step B:")
+                        font.family: app.customTextFont.name
+                        font.pointSize: app.baseFontSize
+                        topPadding: 10
+                    }
 
                     TextField {
                         id: verificationCode
@@ -286,46 +255,68 @@ Components.Page {
                         font.pointSize: app.baseFontSize
                     }
 
-                    //Click on the button to store key and value in the keychain
+
                     Button {
                         id: submitVerificationCodeButton
-                        text: qsTr("Register Phone")
-                        onClicked: {
-                            console.log(verificationCode.text.length)
-                            if(verificationCode.text.length === 0)
-                            {
-                                messageBox.parent = content;
-                                messageBox.descriptionText = qsTr("Please enter verification code");
-                                messageBox.visible = true;
-                                return;
+
+
+                        anchors {
+                            //horizontalCenter: parent.horizontalCenter
+//                            bottom: parent.bottom
+//                            bottomMargin: 60 * app.scaleFactor
+                        }
+
+                        //opacity: 0.0
+
+                        style: ButtonStyle {
+                            id: btnStyle1
+
+                            property real width: parent.width
+                            label: Text {
+                                id: lbl1
+
+                                text: submitVerificationCodeButton.text
+                                anchors.centerIn: parent
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                width: parent.width
+                                maximumLineCount: 2
+                                elide: Text.ElideRight
+                                wrapMode: Text.WordWrap
+                                color: app.titleColor
+                                font.family: app.customTextFont.name
+                                font.pointSize: app.baseFontSize
                             }
 
-
-                            var geom1 = GeometryEngine.project(mapView.currentViewpointCenter.center, mySpatialReference)
-
-                            smsUsr.token = securityPortal.credential.token
-                            smsUsr.attributes.Username = securityPortal.portalUser.username;
-                            smsUsr.attributes.PhoneNumber = phoneNumber.text;
-
-                            smsUsr.geometry.x = geom1.x;
-
-                            var smsRecipient = {
-                                country_code: "1",
-                                smsUser: JSON.stringify(smsUsr),
-                                via: "sms",
-                                token: verificationCode.text,
-                                performEditOnFeatureService: app.info.properties.use_mcscApiForEditing
-                            };
-
-                            console.log(JSON.stringify(smsRecipient));
-                            busyIndicator.visible = true
-                            //storeFeature(smsRecipient)
-                            //submitVerificationCodeNetworkRequest.url += "verification/verify"
-                            submitVerificationCodeNetworkRequest.send(smsRecipient);
-                            //register(true)
+                            background: Rectangle {
+                                color: Qt.darker(app.headerBackgroundColor, 1.2)
+                                border.color: app.titleColor
+                                radius: app.scaleFactor * 2
+                                //implicitWidth: 300
+                                implicitHeight: 50
+                            }
                         }
+                        height: implicitHeight < app.units(56) ? app.units(56) : undefined // set minHeight = 64, otherwise let it scale by content height which is the default behavior
+                        width: Math.min(0.5 * parent.width, app.units(250))
+                        text: qsTr("Register Phone")
+
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                //signInClicked("");
+                                console.log("dude")
+                                //register(true)
+                                doPhoneRegistration();
+                            }
+                        }
+
+
                     }
-                }
+
+
+
+                    //Click on the button to store key and value in the keychain
+                    }
 
                 RowLayout{
                     id: rowUnsubscribe
@@ -380,7 +371,18 @@ Components.Page {
                             anchors.fill: parent
                             onClicked: {
                                 //signInClicked("");
-                                console.log("dude")
+                                //console.log("dude")
+                                console.log("REGISTER FALSE")
+                                //register(false)
+
+                                var phoneNumber = secureStorage.getContent("verifiedPhoneNumber")
+                                console.log(phoneNumber)
+
+                                if (phoneNumber.length === 10)
+                                {
+                                    var queryParameters = rtCreate("QueryParameters", {whereClause:"PhoneNumber = '" + phoneNumber + "'" })//"PhoneNumber = '" + phoneNumber + "'"  "1=1"
+                                    featureTable.queryFeatures(queryParameters);
+                                }
                             }
                         }
 
@@ -416,6 +418,7 @@ Components.Page {
                             }
                             else
                             {
+
                                 register(false)
 
                             }
@@ -502,7 +505,7 @@ Components.Page {
                 unsubscribeButton.visible = false
                 secureStorage.setContent("verifiedPhoneNumber", "");
 
-                if (!app.info.properties.use_mcscApiForEditing)
+                //if (!app.info.properties.use_mcscApiForEditing)
                     register(false)
 
             }
@@ -569,7 +572,7 @@ Components.Page {
 
                 toastMessageRec.visible = true
                 toastMessage.text = startVerificationNetworkRequest.response.message
-
+                busyIndicator.visible = false
                 //messageBox.descriptionText = JSON.stringify(networkRequest.response);
                 //messageBox.visible = true;
                 //busyIndicator.visible = false;
@@ -594,19 +597,57 @@ Components.Page {
         };
 
         console.log(JSON.stringify(smsRecipient));
+        busyIndicator.visible = true
         startVerificationNetworkRequest.send(smsRecipient);
 
     }
-    function show () {
-        //learnMorePage.pageData = results
-        visible = true
-        transitionIn(transition.bottomUp)
-        //register(false)
+
+    function doPhoneRegistration(){
+
+        console.log(verificationCode.text.length)
+        if(verificationCode.text.length === 0)
+        {
+
+            messageBox.parent = content;
+            messageBox.descriptionText = qsTr("Please enter verification code");
+            messageBox.visible = true;
+            return;
+        }
+
+        //var geom1 = GeometryEngine.project(mapView.currentViewpointCenter.center, mySpatialReference)
+
+        smsUsr.token = securityPortal.credential.token
+        smsUsr.attributes.Username = securityPortal.portalUser.username;
+        smsUsr.attributes.PhoneNumber = phoneNumber.text;
+
+        //smsUsr.geometry.x = geom1.x;
+
+        var smsRecipient = {
+            country_code: "1",
+            smsUser: JSON.stringify(smsUsr),
+            via: "sms",
+            token: verificationCode.text,
+            performEditOnFeatureService: app.info.properties.mcsc_useNodeApiForEditing
+        };
+
+        console.log(JSON.stringify(smsRecipient));
+        busyIndicator.visible = true
+        //storeFeature(smsRecipient)
+        //submitVerificationCodeNetworkRequest.url += "verification/verify"
+        submitVerificationCodeNetworkRequest.send(smsRecipient);
+        //register(true)
     }
 
-    function hide () {
-        transitionOut(transition.topDown)
-    }
+//    function show () {
+//        //learnMorePage.pageData = results
+//        visible = true
+//        transitionIn(transition.bottomUp)
+//        //register(false)
+//    }
+
+//    function hide () {
+//        transitionOut(transition.topDown)
+//    }
 
     function loadPortal() {
         console.log(secureStorage.getContent("oAuthRefreshToken"))
@@ -651,7 +692,7 @@ Components.Page {
             rowUnsubscribe.visible = false
             toastMessageRec.visible = false
 
-            Qt.openUrlExternally(app.info.properties.mcscNotifyInitiative )
+            //Qt.openUrlExternally(app.info.properties.mcscNotifyInitiative )
 
         }
 
@@ -663,7 +704,12 @@ Components.Page {
 
         onLoadStatusChanged: {
             console.log("DUDE: " + securityPortal.loadStatus);
+            //Qt.openUrlExternally(app.info.properties.mcscNotifyInitiative )
+
             if (securityPortal.loadStatus === Enums.LoadStatusLoaded) {
+
+                featureTable.credential = securityPortal.credential
+
 //                rowRequestVerification.visible = true
 //                rowEnterVerificationCode.visible = true
 //                rowUnsubscribe.visible = false
@@ -676,5 +722,53 @@ Components.Page {
             }
         }
     }
+
+    ServiceFeatureTable {
+        id:featureTable
+        url: app.info.properties.mcscLocationTrackerFeatureService
+
+        onQueryFeaturesStatusChanged: {
+            if (queryFeaturesStatus === Enums.TaskStatusCompleted) {
+
+                var features = []
+                // get the features
+                while (queryFeaturesResult.iterator.hasNext) {
+                    features.push(queryFeaturesResult.iterator.next());
+                }
+
+                console.log("FEATURE COUNT: " + features.length);
+
+                var licenseResult = ArcGISRuntimeEnvironment.setLicense(securityPortal.portalInfo.licenseInfo)
+                featureTable.deleteFeature(features[0]);
+            }
+        }
+
+        // signal handler for the asynchronous deleteFeature method
+        onDeleteFeatureStatusChanged: {
+            if (deleteFeatureStatus === Enums.TaskStatusCompleted) {
+                // apply the edits to the service
+                featureTable.applyEdits();
+                secureStorage.setContent("verifiedPhoneNumber", "")
+
+                //tourPage.
+            }
+            else if(deleteFeatureStatus === Enums.TaskStatusErrored)
+            {
+                console.log(featureTable.error.message)
+            }
+        }
+
+    }
+
+        function show () {
+            //learnMorePage.pageData = results
+            visible = true
+            transitionIn(transition.bottomUp)
+            //register(false)
+        }
+
+        function hide () {
+            transitionOut(transition.topDown)
+        }
 
 }

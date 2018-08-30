@@ -290,6 +290,9 @@ Components.MenuPage {
                 //Qt.openUrlExternally("https://notifications-mcsc.hub.arcgis.com/");
                 registerPhone = registerPhonePage.createObject(app)
                 registerPhone.show()
+                //registerPhonePage.show()
+
+
                 break;
             }
         })
@@ -318,8 +321,8 @@ Components.MenuPage {
                      "control": "spinBox"},
                     {"name": kAbout,
                      "control": ""},
-                    {"name": kNotify,
-                     "control": ""},
+                    /*{"name": kNotify,
+                     "control": ""},*/
                     {"name": kFeedback,
                      "control": ""},
                     {"name": kDistance,
@@ -331,6 +334,9 @@ Components.MenuPage {
                     {"name": kDownloadMap,
                      "control": ""},
                 ]
+        if (app.info.properties.mcscIncludeNotifyOption)
+            menuItems.splice(3, 0, {"name": kNotify,
+                             "control": ""});
         menuModel.clear()
         for (var i=0; i < menuItems.length; i++) {
             if ((menuItems[i].name === kGallery && (!app.showGallery || !galleryButtonVisible)) ||
