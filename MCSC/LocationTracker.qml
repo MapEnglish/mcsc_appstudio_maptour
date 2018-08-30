@@ -84,8 +84,8 @@ Item {
 
     Credential{
         id:credential
-        username: "esrica_hub"
-        password: "16demouc"
+        username: "xxx"
+        password: "xxx"
     }
     FeatureLayer {
         id: featureLayer
