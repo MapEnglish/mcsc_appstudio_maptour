@@ -138,6 +138,7 @@ Item {
         }
 
         function getQueryParameters () {
+            console.log(root.organizationId)
             return {
                 //"token": root.token,
                 "sortField": root.tourSortField,

@@ -671,6 +671,7 @@ Components.Page {
         console.log("Component.onCompleted")
         console.log(app.info.properties.clientId)
 
+        //secureStorage.setContent("verifiedPhoneNumber", "4162742208")
         var phoneNumber = secureStorage.getContent("verifiedPhoneNumber")
         toastMessage.text = ""
 
@@ -692,7 +693,7 @@ Components.Page {
             rowUnsubscribe.visible = false
             toastMessageRec.visible = false
 
-            //Qt.openUrlExternally(app.info.properties.mcscNotifyInitiative )
+            Qt.openUrlExternally(app.info.properties.mcscNotifyInitiative )
 
         }
 
@@ -740,6 +741,7 @@ Components.Page {
 
                 var licenseResult = ArcGISRuntimeEnvironment.setLicense(securityPortal.portalInfo.licenseInfo)
                 featureTable.deleteFeature(features[0]);
+                register(false)
             }
         }
 
@@ -749,12 +751,13 @@ Components.Page {
                 // apply the edits to the service
                 featureTable.applyEdits();
                 secureStorage.setContent("verifiedPhoneNumber", "")
-
+                registerPhonePage.hide()
                 //tourPage.
             }
             else if(deleteFeatureStatus === Enums.TaskStatusErrored)
             {
-                console.log(featureTable.error.message)
+                if(featureTable.error)
+                    console.log(featureTable.error.message)
             }
         }
 

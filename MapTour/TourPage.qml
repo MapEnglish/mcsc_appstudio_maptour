@@ -201,12 +201,26 @@ NewControls.Pane {
             if (app.urlParameters && sortCount === 1) {
                 if (app.urlParameters.hasOwnProperty("appid") &&
                     app.urlParameters.hasOwnProperty("index")) {
+
+
+
+
                     var idx = parseInt(app.urlParameters.index)
-                    if (app.urlParameters.appid === tourInfo.tourId &&
-                        idx - 1 <= tourItemsListModel.count &&
-                        idx > 0) {
+                    // MATT - force tour to open at newest tour point
+                    if (idx === 9999)
+                    {
+                        photoMode = true
                         mapMode = true
-                        onPhotoClickHandler(idx - 1)
+                        onPhotoClickHandler(tourItemsListModel.count - 1)
+                    }
+                    else
+                    {
+                        if (app.urlParameters.appid === tourInfo.tourId &&
+                            idx - 1 <= tourItemsListModel.count &&
+                            idx > 0) {
+                            mapMode = true
+                            onPhotoClickHandler(idx - 1)
+                        }
                     }
                 }
             } else {

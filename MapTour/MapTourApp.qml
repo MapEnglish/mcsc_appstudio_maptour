@@ -406,7 +406,8 @@ App {
         baseTextSize: 0.8 * app.baseFontSize
         primaryColor: app.headerBackgroundColor
         portalUrl: portal.url
-        organizationId: portal.loadStatus === Enums.LoadStatusLoaded ? portal.portalInfo.organizationId : app.orgId
+        // MATT
+        organizationId: app.orgId  //"Sv9ZXFjH5h1fYAaI"portal.loadStatus === Enums.LoadStatusLoaded ? portal.portalInfo.organizationId : app.orgId
         tourPageSize: 25
         tourOrderBy: app.sortField || "created"
         tourSortField: app.sortField || "created"
@@ -545,6 +546,20 @@ App {
     }
 
     Component.onCompleted: {
+
+        /* MATT
+        Ontario: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=7521054e318f492eb13be4a2613122c8
+        SK & MB: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=a4dcfd2a378241c1aa5895a6dc1aca79
+        AB & BC: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=731e08dc237f4394806a33349266e2d0
+        Atlantic: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=cc072692f425410c966685d237f9180d
+        Quebec: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=e5aa25e3992448b0b897a3480fcf3104
+        Territories: https://mcsc.maps.arcgis.com/apps/MapTour/index.html?appid=f1cdb4c1afee4f9fb1a0317be56e78f2
+        */
+
+//        tourManager.clearCache()
+//        urlParameters = {index: 9999, appid: "7521054e318f492eb13be4a2613122c8"}
+
+        //urlParameters = null
         useOfflineMap = !isOnline && mmpkManager.hasOfflineMap()
         if (offlineMMPKID > "" && !useOfflineMap) {
             checkMmpkTags.url =  "%1/sharing/rest/content/items/%2?f=json".arg(portal.url).arg(offlineMMPKID)

@@ -63,6 +63,7 @@ Item {
         featureTable.definitionExpression = "PhoneNumber = '" + phoneNumber + "'"
         //featureTable.populateFromService(null,true,"*")
         mapView.map.operationalLayers.append(featureLayer)
+
        }
        else
        {
@@ -597,7 +598,14 @@ Item {
         target: menuPage.registerPhone
 
         onRegister:{
-            console.log("MENUPAGE REGISTERPHONE")
+            console.log("MENUPAGE REGISTERPHONE: " + registered)
+            if(!registered)
+            {
+                console.log("remove feature from map " + mapView.map.operationalLayers.count)
+                featureTable.clearCache()
+//                mapView.map.operationalLayers.remove(1)
+//                console.log(mapView.map.operationalLayers.count)
+            }
         }
     }
 
